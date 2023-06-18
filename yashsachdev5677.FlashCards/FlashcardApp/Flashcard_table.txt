@@ -1,0 +1,5 @@
+﻿IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = 'flashcardapp')
+BEGIN
+    CREATE DATABASE flashcardapp;
+    ALTER DATABASE flashcardapp SET AUTO_CLOSE OFF;
+END
