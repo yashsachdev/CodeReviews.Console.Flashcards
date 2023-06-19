@@ -58,14 +58,14 @@ internal class FlashcardManager
     }
     public void DeleteStack(int id)
     {
-        var query = "DELETE FROM flashcards WHERE stack_id = @id ";
+        var query = "USE [flashcardapp] DELETE FROM flashcards WHERE stack_id = @id ";
         var parameter = new SqlParameter("@id", id);
         _context.ExecuteQuery(query, parameter);
     }
     public List<FlashcardDTO> GetAllFlashcards()
     {
         List<FlashcardDTO> flashcardDTOs = new List<FlashcardDTO>();
-        var query = "SELECT flashcards.prompt,flashcards.answer FROM flashcards JOIN stacks ON flashcards.stack_id = stacks.id";
+        var query = "USE [flashcardapp] SELECT flashcards.prompt,flashcards.answer FROM flashcards JOIN stacks ON flashcards.stack_id = stacks.id";
         using (SqlDataReader reader = _context.ExecuterReader(query))
         {
             if (reader.HasRows)
@@ -86,20 +86,22 @@ internal class FlashcardManager
     }
     public void DisplayAllFlashcard()
     {
-        var query = "USE [flashcardapp]SELECT stacks.id,stacks.name,flashcards.prompt,flashcards.answer FROM flashcards JOIN stacks ON flashcards.stack_id = stacks.id";
+        var query = "USE [flashcardapp] SELECT stacks.id,stacks.name,flashcards.prompt,flashcards.answer FROM flashcards JOIN stacks ON flashcards.stack_id = stacks.id";
         using (SqlDataReader reader = _context.ExecuterReader(query))
         {
-                Flashcard flashcard = null;
                 while (reader.Read())
                 {
+                    Flashcard flashcard = null;
                     var stackid = (int)reader["id"];
                     var stackname = (string)reader["name"];
                     var question = (string)reader["prompt"];
                     var answer = (string)reader["answer"];
                     if (flashcard == null || flashcard.Name != stackname)
-                    {
-                        flashcard = new Flashcard(stackname, stackid);
-                        flashcard.Display();
+                {
+                    flashcard = new Flashcard(stackname, stackid);
+                    flashcard.Question = question;
+                    flashcard.Answer = answer;
+                    flashcard.Display();
                     }
                 }
  

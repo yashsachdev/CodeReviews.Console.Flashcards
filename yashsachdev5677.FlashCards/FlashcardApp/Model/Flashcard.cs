@@ -1,4 +1,5 @@
 ﻿using System.Xml.Linq;
+using static Azure.Core.HttpHeader;
 
 namespace FlashcardApp.Model;
 internal class Flashcard : FlashcardStackSystem
@@ -36,6 +37,8 @@ internal class Flashcard : FlashcardStackSystem
 
     public override void Display()
     {
+        Console.WriteLine("Id : " + Id);
+        Console.WriteLine("stack name :" + Name);
         Console.WriteLine("Question: " + Question);
         Console.WriteLine("Answer: " + Answer);
     }

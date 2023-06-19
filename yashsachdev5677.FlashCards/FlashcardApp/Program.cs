@@ -19,7 +19,7 @@ Console.WriteLine($"count is :{MainStack.count()}");*/
 string projectFolder = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\.."));
 var connectionString = DatabaseClass.GetConnectionStringByName("Flashcard");
 DatabaseClass databaseClass = new DatabaseClass(connectionString);
-/*databaseClass.CreateTable();*/
+databaseClass.CreateTable();
 Databasecontext context = new Databasecontext(connectionString);
 var flashcardmanager = new FlashcardManager(connectionString);
 flashcardmanager.AddFlashcard("Stack 1","Question 1","Answer 1");
