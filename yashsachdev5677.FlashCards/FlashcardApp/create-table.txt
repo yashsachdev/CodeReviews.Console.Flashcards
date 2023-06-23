@@ -40,3 +40,4 @@ ON UPDATE CASCADE
 ON DELETE CASCADE
 
 ALTER TABLE [dbo].[flashcards] CHECK CONSTRAINT [FK_flashcards_stacks]
+

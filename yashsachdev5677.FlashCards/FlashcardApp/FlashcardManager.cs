@@ -52,15 +52,34 @@ internal class FlashcardManager
             var stackId = GetId(stackName);
             if (stackId != null)
             {
+                DeleteFlashcard_Stack(stackId);
                 DeleteStack(stackId);
             }
         }
     }
-    public void DeleteStack(int id)
+
+    private void DeleteStack(int id)
     {
-        var query = "USE [flashcardapp] DELETE FROM flashcards WHERE stack_id = @id ";
+        var query = "USE [flashcardapp] DELETE FROM stacks WHERE id = @id ";
         var parameter = new SqlParameter("@id", id);
         _context.ExecuteQuery(query, parameter);
+    }
+
+    public void DeleteFlashcard_Stack(int id)
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.Append("USE [flashcardapp] DELETE FROM flashcards WHERE stack_id = @id ");
+        sb.Append("IF NOT EXISTS(SELECT 1 FROM sys.tables WHERE name = 'new_flashcards') ");
+        sb.Append("BEGIN SELECT id, stack_id, prompt, answer INTO new_flashcards FROM flashcards; END ");
+        sb.Append("DELETE FROM flashcards ");
+        sb.Append("SET IDENTITY_INSERT flashcards ON; ");
+        sb.Append("DBCC CHECKIDENT('flashcards', RESEED, 0);");
+        sb.Append("INSERT INTO flashcards (id, stack_id, prompt, answer) SELECT id,stack_id,prompt,answer FROM new_flashcards ORDER BY id ASC; ");
+        sb.Append("SET IDENTITY_INSERT flashcards OFF; "); 
+        var query = sb.ToString();
+        var parameter = new SqlParameter("@id", id);
+        _context.ExecuteQuery(query, parameter);
+
     }
     public List<FlashcardDTO> GetAllFlashcards()
     {

@@ -26,6 +26,10 @@ flashcardmanager.AddFlashcard("Stack 1","Question 1","Answer 1");
 flashcardmanager.AddFlashcard("Stack 1", "Question 2", "Answer 2");
 flashcardmanager.AddFlashcard("Stack 2", "Question 1", "Answer 1");
 flashcardmanager.DisplayAllFlashcard();
+flashcardmanager.RemoveStack("Stack 2");
+flashcardmanager.DisplayAllFlashcard();
+
+
 
 var flashcards = flashcardmanager.GetAllFlashcards();
 foreach (var flashcard in flashcards)
