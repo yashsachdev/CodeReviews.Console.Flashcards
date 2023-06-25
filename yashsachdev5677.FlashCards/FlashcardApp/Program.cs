@@ -22,7 +22,18 @@ DatabaseClass databaseClass = new DatabaseClass(connectionString);
 databaseClass.CreateTable();
 Databasecontext context = new Databasecontext(connectionString);
 var flashcardmanager = new FlashcardManager(connectionString);
-flashcardmanager.AddFlashcard("Stack 1","Question 1","Answer 1");
+Stack stack = new Stack("Stack 1");
+stack.AddFlashcard(new FlashcardDTO { Question = "wassup ?", Answer = "nth much" });
+foreach(var flashcard in stack.cardItems)
+{
+    if (flashcard is Flashcard conflashcard)
+    {
+        flashcardmanager.AddFlashcard(stack.Name, conflashcard.Question, conflashcard.Answer);
+    }
+}
+stack.Display();
+
+/*flashcardmanager.AddFlashcard(stack.Name,,"Answer 1");
 flashcardmanager.AddFlashcard("Stack 1", "Question 2", "Answer 2");
 flashcardmanager.AddFlashcard("Stack 2", "Question 1", "Answer 1");
 flashcardmanager.DisplayAllFlashcard();
@@ -37,5 +48,6 @@ foreach (var flashcard in flashcards)
     Console.WriteLine("Question: " + flashcard.Question);
     Console.WriteLine("Answer: " + flashcard.Answer);
     Console.WriteLine("------------------------------");
-}
+}*/
+
 Console.ReadKey();

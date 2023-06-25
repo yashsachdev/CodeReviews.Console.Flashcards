@@ -139,4 +139,5 @@ internal class FlashcardManager
             CreateFlashcard(stackId, question, answer);
         }
     }
+
 }

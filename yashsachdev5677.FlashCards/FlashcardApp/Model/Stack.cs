@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,48 +9,21 @@ namespace FlashcardApp.Model
 {
     internal class Stack : FlashcardStackSystem
     {
-        private List<FlashcardStackSystem> cardItems = new List<FlashcardStackSystem>(); 
-        public Stack(string name, int id):base(name,id)
+        public List<FlashcardStackSystem> cardItems = new List<FlashcardStackSystem>();
+        public Stack(string name)
         {
+            Name = name;
         }
-        public override void Insert(FlashcardStackSystem itemToAdd)
+        public void AddFlashcard(FlashcardDTO flashcarddto)
         {
-            cardItems.Add(itemToAdd);  
+            Flashcard flashcard = new Flashcard(flashcarddto);
+            cardItems.Add(flashcard);
         }
-        public override void Remove(FlashcardStackSystem itemToRemove)
+        public void RemoveFlashcard(FlashcardStackSystem card)
         {
-            cardItems.Remove(itemToRemove);
+            cardItems.Remove(card);
         }
-        public override void clear()
-        {
-            cardItems.Clear();
-        }
-        public override int count()
-        {
-           return cardItems.Count;
-        }
-        public override void peek()
-        {
-            if (cardItems.Count > 0)
-            {
-                FlashcardStackSystem topItem = cardItems.Last();
-                if (topItem is Flashcard flashcard)
-                {
-                    Console.WriteLine($"Question: {flashcard.Question}, Answer: {flashcard.Answer}");
-                }
-            }
-        }
-        public override void search(int indexofItem)
-        {
-            if (indexofItem >= 0 && indexofItem < cardItems.Count)
-            {
-                FlashcardStackSystem item = cardItems[indexofItem];
-                if (item is Flashcard flashcard)
-                    {
-                    Console.WriteLine($"Question: {flashcard.Question}, Answer: {flashcard.Answer}");
-                }
-            }
-        }
+
         public override void Display()
         {
             Console.WriteLine("Stack: " + Name);
